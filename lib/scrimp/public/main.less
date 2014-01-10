@@ -1,0 +1,99 @@
+.split-vertical {
+  .request {
+    position: absolute;
+    left: 0;
+    width: 50%;
+    .request-json {
+      min-height: 60em;
+      width: 90%;
+      margin-left: 5%;
+    }
+  }
+  .response {
+    position: absolute;
+    left: 50%;
+    width: 50%;
+  }
+}
+
+.show-structured-request {
+  display: none;
+}
+
+.structured-request {
+  display: none;
+  .type-info {
+    background-color: #eee;
+    font-size: 80%;
+    padding: 2px;
+  }
+  label.struct-value {
+    font-weight: bold;
+    margin-right: 3px;
+  }
+  .add, .del {
+    padding: 2px 4px;
+    text-decoration: none;
+    background-color: #afa;
+    color: blue;
+    border-radius: 3px;
+  }
+  .map-field-label {
+    // needs improvement
+    display: inline-block;
+    width: 4ex;
+  }
+}
+
+.structured-response {
+  .map-field-label {
+    margin-right: 5px;
+  }
+}
+
+.raw-response {
+  display: none;
+}
+
+.value-string {
+  color: #8B6508;
+}
+
+.value-number, .value-bool, .value-enum {
+  color: #008B8B;
+}
+
+.value-struct-entry-name {
+  margin-right: 1ex;
+}
+
+.value-struct {
+  list-style-type: none;
+  padding: .35em 0 .35em 4ex;
+}
+
+.response {
+  display: none;
+}
+
+.response-success, .response-error {
+  font-size: 125%;
+  font-weight: bold;
+}
+
+.response-success {
+  color: green;
+}
+
+.response-error {
+  color: red;
+}
+
+.response-json {
+  white-space: pre;
+}
+.invoke {
+  display: block;
+  float: right;
+  margin-right: 40px;
+}

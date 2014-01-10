@@ -1,0 +1,45 @@
+!!! 5
+%html
+  %head
+    %title scrimp
+    %script{:type => 'text/javascript', :src => '/jquery-2.0.3.min.js'}
+    %script{:type => 'text/coffeescript', :src => '/main.coffee'}
+    %script{:type => 'text/javascript', :src => '/coffee-script-1.6.3.min.js'}
+    %link{:rel => 'stylesheet/css', :type => 'text/css', :href => '/reset.css'}
+    %link{:rel => 'stylesheet/less', :type => 'text/css', :href => '/main.less'}
+    %script{:type => 'text/javascript', :src => '/less-1.5.0.min.js'}
+  %body
+    .content.split-vertical
+      .request
+        %form.request-form{:action => "/invoke", :method => "post"}
+          %input.invoke{:type => 'submit', :value => 'Invoke'}
+          .structured-request
+            %a.show-raw-request{:href => '#'} edit request as json
+            .field
+              %label.service-field{:name => 'service'} Service
+              %select.service-field{:name => 'service'}
+            .field
+              %label.function-field{:name => 'function'} Function
+              %select.function-field{:name => 'function'}
+            .field
+              %label.protocol-field{:name => 'protocol'} Protocol
+              %select.protocol-field{:name => 'protocol'}
+            .field
+              %label.host-field{:name => 'host'} Host
+              %input.host-field{:name => 'host', :type => 'text'}
+            .field
+              %label.port-field{:name => 'port'} Port
+              %input.port-field{:name => 'port', :type => 'text'}
+            %ul.args-field.struct-field
+          .raw-request
+            %a.show-structured-request{:href => '#'} use structured editor
+            %textarea.request-json{:name => 'request-json'}
+      .response
+        .structured-response
+          %a.show-raw-response{:href => '#'} view json
+          %p.response-success Success!
+          %p.response-error
+          .response-details
+        .raw-response
+          %a.show-structured-response{:href => '#'} view formatted
+          .response-json

@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+
+require 'scrimp'
+require 'optparse'
+
+options = {:port => 7000,
+           :thrift_command => 'thrift'}
+parser = OptionParser.new do |op|
+  op.banner = 'Usage: scrimp FOLDER... [OPTIONS]'
+  op.on '-p', '--port PORT', 'port to launch UI server on' do |port|
+    options[:port] = port.to_i
+  end
+  op.on '-t', '--thrift-command COMMAND', 'thrift compiler' do |cmd|
+    options[:thrift_command] = cmd
+  end
+  op.on '-h', '--help' do
+    puts parser
+    exit 0
+  end
+end
+
+begin
+  parser.parse!
+  raise 'need arguments' if ARGV.empty?
+rescue
+  puts parser
+  exit 0
+end
+
+Dir.mktmpdir do |out|
+  files = ARGV.map {|dir| Dir["#{dir}/**/*.thrift"]}.flatten
+  folders = files.map {|file| File.dirname(File.expand_path(file))}.uniq
+  include_directives = folders.map {|dir| "-I #{dir}"}.join(' ')
+  files.each do |file|
+    puts (cmd = "#{options[:thrift_command]} --gen rb -out #{out} #{include_directives} #{file}")
+    puts `#{cmd}`
+  end
+  $LOAD_PATH.unshift out
+  Dir["#{out}/*.rb"].each {|file| require file}
+  $LOAD_PATH.delete out
+end
+
+Scrimp::ThriftUtil.extend_structs
+Scrimp::App.run! :port => options[:port]
