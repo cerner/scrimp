@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+require 'readline'
+require 'uri'
+require 'net/http'
+require 'json'
+
+DEFAULT_SCRIMP_HOST = 'localhost:7000'
+
+request_filename = ""
+scrimp_url       = ""
+if ARGV.length == 1
+  request_filename = ARGV[0]
+elsif ARGV.length == 2
+  request_filename = ARGV[0]
+  scrimp_url       = ARGV[1]
+else
+  STDERR.puts "!!! Unexpected arguments specified, please provide the correct arguments below  !!!" if ARGV.length > 2
+  # use Readline to enable tab completion of filenames
+  request_filename = Readline.readline("Please enter the file name which contains the json request:  ", false)
+
+  STDERR.print "Please enter the URL for the scrimp server [#{DEFAULT_SCRIMP_HOST}]:  "
+  scrimp_url = gets.chomp
+end
+
+scrimp_url = DEFAULT_SCRIMP_HOST if scrimp_url.empty?
+
+unless File.exists? request_filename
+  STDERR.puts "#{request_filename} not found!  Aborting!"
+  exit
+end
+
+uri = URI("#{scrimp_url}/invoke")
+if uri.host == nil and uri.port == nil
+  uri = URI("http://#{scrimp_url}/invoke")
+end
+STDERR.puts "Submitting #{request_filename} to #{uri}..."
+
+response = Net::HTTP.start(uri.host, uri.port) { |http|
+  http.post uri.path, File.read(request_filename), {'Content-Type' => 'application/json'}
+}
+
+unless response.code == '200'
+  STDERR.puts "!!! An error occurred !!!"
+else
+  puts JSON.pretty_generate JSON.parse(response.body)
+end
+
