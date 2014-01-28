@@ -71,7 +71,7 @@ You can POST requests in the above format directly to the scrimp server from the
 for this, scrimpster, is included with the project.
 
 ```bash
-./scrimpster request.json 'localhost:7000' 
+scrimpster request.json 'localhost:7000' 
 ```
 
 The above example will issue a scrimp request to the scrimp server running on the localhost at port 7000 and will send
@@ -81,7 +81,7 @@ not specified it will default to the scrimp default of localhost:7000.
 This tool can be easily scripted to run a battery of scrimp requests.  
 For example to run scrimpster on a set of .json files in the current directory:
 ```bash
-for json in *.json; do ./scrimpster $json > responses/$json; done
+for json in *.json; do scrimpster $json > responses/$json; done
 ```
 
 
