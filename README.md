@@ -65,6 +65,27 @@ a string (`name`) and enum (`favoriteWord`):
       }
     }
 
+### Bypassing the GUI
+
+You can POST requests in the above format directly to the scrimp server from the command line.  The command
+for this, scrimpster, is included with the project.
+
+```bash
+./scrimpster request.json 'localhost:7000' 
+```
+
+The above example will issue a scrimp request to the scrimp server running on the localhost at port 7000 and will send
+the data in request.json as the body of the request.  The response will be written to stdout.  If the scrimp server is
+not specified it will default to the scrimp default of localhost:7000.
+
+This tool can be easily scripted to run a battery of scrimp requests.  
+For example to run scrimpster on a set of .json files in the current directory:
+```bash
+for json in *.json; do ./scrimpster $json > responses/$json; done
+```
+
+
+
 ### Example Service
 
 If you check out the project, there is a sample Thrift service to aid in testing. Start it with
@@ -77,6 +98,7 @@ a `-t` argument, as described above for the `scrimp` command.
 The IDL file is at sample/example.thrift, so start scrimp with:
 
     bundle exec bin/scrimp sample
+
 
 ## Contributing
 
