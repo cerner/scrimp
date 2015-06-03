@@ -32,11 +32,11 @@ Dir.mktmpdir do |out|
   folders = files.map {|file| File.dirname(File.expand_path(file))}.uniq
   include_directives = folders.map {|dir| "-I #{dir}"}.join(' ')
   files.each do |file|
-    puts (cmd = "#{options[:thrift_command]} --gen rb -out #{out} #{include_directives} #{file}")
+    puts (cmd = "#{options[:thrift_command]} --gen rb:namespaced -out #{out} #{include_directives} #{file}")
     puts `#{cmd}`
   end
   $LOAD_PATH.unshift out
-  Dir["#{out}/*.rb"].each {|file| require file}
+  Dir["#{out}/**/*.rb"].each {|file| require file }
   $LOAD_PATH.delete out
 end
 
