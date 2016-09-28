@@ -2,6 +2,7 @@
 
 require 'optparse'
 require 'tmpdir'
+require 'thrift'
 
 options = {port: 9000,
            thrift_command: 'thrift'}
